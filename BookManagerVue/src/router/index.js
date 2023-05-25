@@ -87,7 +87,7 @@ export const asyncRoutes = [
           title: '图书信息管理',
           icon: 'form',
           roles: ['admin', 'reader'],
-          noCache: true 
+          noCache: true
         }
       },
       {
@@ -98,7 +98,7 @@ export const asyncRoutes = [
           title: '图书类型管理',
           icon: 'example',
           roles: ['admin'],
-          noCache: true 
+          noCache: true
         }
       },
       {
@@ -109,7 +109,7 @@ export const asyncRoutes = [
           title: '借阅信息管理',
           icon: 'borrow',
           roles: ['admin', 'reader'],
-          noCache: true 
+          noCache: true
         }
       },
     ]
@@ -123,7 +123,7 @@ export const asyncRoutes = [
     alwaysShow: true,
     meta: {
       title: '其他管理',
-      icon: 'other' 
+      icon: 'other'
     },
     children: [
       {
@@ -134,7 +134,7 @@ export const asyncRoutes = [
           title: '用户管理',
           icon: 'user',
           roles: ['admin'],
-          noCache: true 
+          noCache: true
         }
       },
       {
@@ -145,8 +145,31 @@ export const asyncRoutes = [
           title: '修改密码',
           icon: 'password',
           roles: ['admin', 'reader'],
-          noCache: true 
+          noCache: true
         }
+      },
+      {
+        path: 'studentinfo',
+        name: 'Studentinfo',
+        component: () => import('@/views/studentinfo/index'),
+        meta: {
+          title: '个人信息修改',
+          icon: 'password',
+          roles: ['reader'],
+          noCache: true
+        }
+      },
+      {
+        path: 'edit/:id',
+        name: 'StudentinfoEdit',
+        component: () => import('@/views/studentinfo/index'),
+        meta: {
+          title: '个人信息修改',
+          icon: 'password',
+          roles: ['reader'],
+          noCache: true
+        },
+        hidden: true
       }
     ]
   },

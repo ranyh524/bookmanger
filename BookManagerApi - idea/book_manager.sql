@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : localhost
+ Source Server         : root
  Source Server Type    : MySQL
- Source Server Version : 80019
+ Source Server Version : 80031
  Source Host           : localhost:3306
  Source Schema         : book_manager
 
  Target Server Type    : MySQL
- Target Server Version : 80019
+ Target Server Version : 80031
  File Encoding         : 65001
 
- Date: 10/04/2023 20:38:56
+ Date: 21/05/2023 21:20:12
 */
 
 SET NAMES utf8mb4;
@@ -23,17 +23,17 @@ SET FOREIGN_KEY_CHECKS = 0;
 DROP TABLE IF EXISTS `book_info`;
 CREATE TABLE `book_info`  (
   `bookId` int(0) NOT NULL AUTO_INCREMENT,
-  `bookName` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `bookAuthor` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `bookName` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `bookAuthor` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
   `bookPrice` decimal(10, 2) NOT NULL,
   `bookTypeId` int(0) NOT NULL,
-  `bookDesc` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '书籍描述',
+  `bookDesc` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '书籍描述',
   `isBorrowed` tinyint(0) NOT NULL COMMENT '1表示借出，0表示已还',
-  `bookImg` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '书籍图片',
+  `bookImg` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '书籍图片',
   PRIMARY KEY (`bookId`) USING BTREE,
   INDEX `fk_book_info_book_type_1`(`bookTypeId`) USING BTREE,
   CONSTRAINT `book_info_ibfk_1` FOREIGN KEY (`bookTypeId`) REFERENCES `book_type` (`bookTypeId`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 85 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 75 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of book_info
@@ -89,10 +89,10 @@ INSERT INTO `book_info` VALUES (75, '三体（全集）', '刘慈欣', 92.00, 4,
 DROP TABLE IF EXISTS `book_type`;
 CREATE TABLE `book_type`  (
   `bookTypeId` int(0) NOT NULL AUTO_INCREMENT,
-  `bookTypeName` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `bookTypeDesc` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '书籍类型描述',
+  `bookTypeName` varchar(20) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `bookTypeDesc` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '书籍类型描述',
   PRIMARY KEY (`bookTypeId`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of book_type
@@ -112,14 +112,14 @@ CREATE TABLE `borrow`  (
   `borrowId` int(0) NOT NULL AUTO_INCREMENT,
   `userId` int(0) NOT NULL,
   `bookId` int(0) NOT NULL,
-  `borrowTime` datetime(0) NOT NULL,
+  `borrowTime` datetime(0) NULL,
   `returnTime` datetime(0) NULL DEFAULT NULL,
   PRIMARY KEY (`borrowId`) USING BTREE,
   INDEX `fk_borrow_user_1`(`userId`) USING BTREE,
   INDEX `fk_borrow_book_info_1`(`bookId`) USING BTREE,
   CONSTRAINT `borrow_ibfk_1` FOREIGN KEY (`bookId`) REFERENCES `book_info` (`bookId`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `borrow_ibfk_2` FOREIGN KEY (`userId`) REFERENCES `user` (`userId`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 43 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 47 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of borrow
@@ -131,16 +131,38 @@ INSERT INTO `borrow` VALUES (46, 15, 43, '2023-04-10 20:32:36', NULL);
 INSERT INTO `borrow` VALUES (47, 15, 34, '2023-04-10 20:37:38', '2023-04-10 20:37:51');
 
 -- ----------------------------
+-- Table structure for student
+-- ----------------------------
+DROP TABLE IF EXISTS `student`;
+CREATE TABLE `student`  (
+  `studentId` int(0) NOT NULL,
+  `userId` int(0) NULL DEFAULT NULL,
+  `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `gender` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `class` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `major` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `birthdate` date NOT NULL,
+  PRIMARY KEY (`studentId`) USING BTREE,
+  INDEX `userId`(`userId`) USING BTREE,
+  CONSTRAINT `student_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `user` (`userId`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of student
+-- ----------------------------
+INSERT INTO `student` VALUES (1, 1, '冉耀华', '男', '03', '计算机', '2001-01-06');
+
+-- ----------------------------
 -- Table structure for user
 -- ----------------------------
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user`  (
   `userId` int(0) NOT NULL AUTO_INCREMENT,
-  `userName` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `userPassword` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `userName` varchar(20) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `userPassword` varchar(20) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
   `isAdmin` tinyint(0) NOT NULL COMMENT '1是管理员，0非管理员',
   PRIMARY KEY (`userId`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 16 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 15 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of user
